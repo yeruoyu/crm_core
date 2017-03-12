@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="crm_core">
+		<class>com.lodge.crm.core.entity.hibernate.Activity</class>
+		<class>com.lodge.crm.core.entity.hibernate.Channel</class>
+		<class>com.lodge.crm.core.entity.hibernate.ContactInfo</class>
+		<class>com.lodge.crm.core.entity.hibernate.Country</class>
+		<class>com.lodge.crm.core.entity.hibernate.Customer</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerActivity</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerContract</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerCountry</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerProject</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerRecord</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerSchool</class>
+		<class>com.lodge.crm.core.entity.hibernate.CustomerUser</class>
+		<class>com.lodge.crm.core.entity.hibernate.Menu</class>
+		<class>com.lodge.crm.core.entity.hibernate.OperateLog</class>
+		<class>com.lodge.crm.core.entity.hibernate.Project</class>
+		<class>com.lodge.crm.core.entity.hibernate.Role</class>
+		<class>com.lodge.crm.core.entity.hibernate.School</class>		
+		<class>com.lodge.crm.core.entity.hibernate.User</class>
+		<class>com.lodge.crm.core.entity.hibernate.TableKey</class>
+
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.dialect" value="${hibernate.dialect}" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.id.new_generator_mappings" value="false" />
+		</properties>
+		
+		<!-- <mapping-file>META-INF/orm.xml</mapping-file> -->
+	</persistence-unit>
+</persistence>
