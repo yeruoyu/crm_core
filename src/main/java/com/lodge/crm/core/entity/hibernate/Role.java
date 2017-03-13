@@ -34,8 +34,11 @@ public class Role implements Serializable{
             joinColumns = @JoinColumn(name = "ROLE_CODE"), 
             inverseJoinColumns = @JoinColumn(name = "USER_CODE"))
 	private List<User> userList;
-	
-	@ManyToMany(mappedBy="roleList",cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)
+
+	@ManyToMany(cascade=CascadeType.PERSIST,fetch=FetchType.EAGER)
+	@JoinTable(name = "ROLE_MENU", 
+            joinColumns = @JoinColumn(name = "ROLE_CODE"), 
+            inverseJoinColumns = @JoinColumn(name = "MENU_CODE"))
 	private List<Menu> menuList;
 
 	public String getRoleCode() {

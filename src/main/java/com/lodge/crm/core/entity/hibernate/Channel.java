@@ -68,7 +68,7 @@ public class Channel  implements Serializable{
 	@Column(name="CHANNEL_COMMENTS")
 	private String channelComments;
 
-	@OneToMany(mappedBy ="channel",fetch=FetchType.LAZY )
+	@OneToMany(mappedBy ="customerChannel",fetch=FetchType.LAZY )
 	private List<Customer> customerList;
 
 	public String getChannelCode() {

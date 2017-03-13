@@ -97,10 +97,36 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         this.getUserDetailInfo(user);
+        
+        if(user.getParentUser()!=null){
+        	this.getUserDetailInfo(user.getParentUser());
+        }
+        
+        return user;
+	}
+	
+	@Override
+	public User findbyEmailAccount(String emailCount){
+		List<User> userList = userRepository.findbyEmailAccount(emailCount);
+		if(userList==null || userList.size()==0){
+			return null;
+		}
+		
+		User user = userList.get(0);
+		if(user == null) {
+            return null;
+        }		
+		this.getUserDetailInfo(user);
+        
+        if(user.getParentUser()!=null){
+        	this.getUserDetailInfo(user.getParentUser());
+        }
+        
         return user;
 	}
 	
 	private void getUserDetailInfo(User user){
+		
 		user.getCustomerList().size();
         user.getLockHistoryList().size();
         user.getOperateLogList().size();

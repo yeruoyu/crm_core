@@ -16,14 +16,24 @@ public interface CustomerRepository extends JpaRepository<Customer, String>,JpaS
 	 * @param pageable
 	 * @return
 	 */
-	@Query(value="SELECT c FROM Customer c JOIN c.group g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.customerLocked = 0 AND c.accountStatus = 0 ORDER BY c.customerCode",
-			countQuery="SELECT COUNT(c) FROM Customer c JOIN c.group g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.customerLocked = 0 AND c.accountStatus = 0")
+	@Query(value="SELECT c FROM Customer c JOIN c.customerGroup g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.customerLocked = 0 AND c.accountStatus = 0 ORDER BY c.customerCode",
+			countQuery="SELECT COUNT(c) FROM Customer c JOIN c.customerGroup g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.customerLocked = 0 AND c.accountStatus = 0")
 	public Page<Customer> findUnlockCustomer(String userCode,Pageable pageable);
 
 	/**
-	 * 根据用户手机查询用户
-	 * @param customerMobile
+	 * 根据员工ID获取员工所对应的客户
+	 * @param userCode
+	 * @param pageable
 	 * @return
 	 */
-	public Customer findCustomerByCustomerMobile(String customerMobile);
+	@Query(value="SELECT c FROM Customer c JOIN c.customerGroup g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.accountStatus = 0 ORDER BY c.customerCode",
+			countQuery="SELECT COUNT(c) FROM Customer c JOIN c.customerGroup g JOIN g.userList u WHERE u.userCode =?1 AND c.customerStatus = 1 AND c.accountStatus = 0")
+	public Page<Customer> findUserCustomer(String userCode,Pageable pageable);
+	
+	/**
+	 * 根据用户手机查询用户
+	 * @param customerMobile1
+	 * @return
+	 */
+	public Customer findCustomerByCustomerMobile1(String customerMobile1);
 }

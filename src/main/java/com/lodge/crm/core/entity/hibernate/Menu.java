@@ -52,11 +52,8 @@ public class Menu implements Serializable {
 	//bi-directional many-to-one association to Menu
 	@OneToMany(mappedBy="parentMenu")
 	private List<Menu> menus;
-
-	@ManyToMany(cascade=CascadeType.PERSIST,fetch=FetchType.LAZY)
-	@JoinTable(name = "ROLE_MENU", 
-            joinColumns = @JoinColumn(name = "MENU_CODE"), 
-            inverseJoinColumns = @JoinColumn(name = "ROLE_CODE"))
+	
+	@ManyToMany(mappedBy="menuList",cascade={CascadeType.PERSIST},fetch=FetchType.LAZY)
 	private List<Role> roleList;
 	
 	public Menu() {

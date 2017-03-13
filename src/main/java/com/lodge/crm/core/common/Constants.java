@@ -11,4 +11,7 @@ public class Constants {
 	
 	public static final String DIST_TYPE_COURSE="course";
 	public static final String DIST_TYPE_SCHEDULE="schedule";
+	public static final String DIST_TYPE_CUSTOMER_STATUS="cstatus";
+	public static final String DiST_TYPE_USER_LEVEL="ulevel";
+
 }

@@ -89,6 +89,11 @@ public class PublishServiceImpl implements PublishService {
 	}
 	
 	@Override
+	public Page<Publish> findAllActive(Pageable pageable){
+		return publishRepository.findAllActive(pageable);
+	}
+	
+	@Override
 	public Page<Publish> findAll(JqgridFilter jqgridFilter, Pageable pageable) {
 		Specification<Publish> spec = getWhereClause(jqgridFilter);
 		return publishRepository.findAll(spec, pageable);

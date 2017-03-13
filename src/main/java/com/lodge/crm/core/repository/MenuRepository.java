@@ -29,4 +29,12 @@ public interface MenuRepository extends JpaRepository<Menu, String>,
 			+ "and u.userStatus=1 "
 			+ "order by m.menuSort")
 	public List<Menu> findByUserCode(String userCode, String menuType);
+	
+	@Query("select m from Menu m join m.roleList r "
+			+ "where r.roleCode = ?1 "
+			+ "and m.menuType = ?2 "
+			+ "and m.menuStatus=1 "
+			+ "and r.roleStatus=1 "
+			+ "order by m.menuSort")
+	public List<Menu> findByRoleCode(String roleCode,String menuType);
 }

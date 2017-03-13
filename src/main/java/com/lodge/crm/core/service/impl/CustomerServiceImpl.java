@@ -20,9 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lodge.crm.core.common.Constants;
 import com.lodge.crm.core.entity.hibernate.Channel;
 import com.lodge.crm.core.entity.hibernate.Customer;
+import com.lodge.crm.core.entity.hibernate.CustomerHis;
 import com.lodge.crm.core.entity.hibernate.School;
 import com.lodge.crm.core.entity.hibernate.User;
+import com.lodge.crm.core.repository.CustomerHisRepository;
 import com.lodge.crm.core.repository.CustomerRepository;
+import com.lodge.crm.core.repository.UserRepository;
 import com.lodge.crm.core.service.CustomerService;
 import com.lodge.crm.core.util.JqgridFilter;
 
@@ -32,6 +35,12 @@ public class CustomerServiceImpl  implements CustomerService{
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	CustomerHisRepository customerHisRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Override
 	public Boolean create(Customer entity) {
@@ -65,6 +74,12 @@ public class CustomerServiceImpl  implements CustomerService{
 
 	@Override
 	public Boolean update(Customer entity) {
+		// 查找原记录
+		Customer customerHis = customerRepository.findOne(entity.getCustomerCode());
+		// 生成历史记录
+		CustomerHis history= new CustomerHis(customerHis);
+		customerHisRepository.saveAndFlush(history);
+		// 保存修改记录
 		Customer exisitCustomer = customerRepository.saveAndFlush(entity);
 		if(exisitCustomer == null){
 			return false;
@@ -90,14 +105,20 @@ public class CustomerServiceImpl  implements CustomerService{
 	@Override
 	public Customer findOne(String code) {
 		Customer customer = customerRepository.findOne(code);
-		customer.getLockHistoryList().size();
+		if(customer!=null && customer.getLockHistoryList()!=null){
+			customer.getLockHistoryList().size();
+		}
+		
+
 		return customer;
 	}
+	
 
 	@Override
 	public Page<Customer> findAll(JqgridFilter jqgridFilter, Pageable pageable) {
 		Specification<Customer> spec = getWhereClause(jqgridFilter);
-		return customerRepository.findAll(spec, pageable);
+		Page<Customer> customers =  customerRepository.findAll(spec, pageable);
+		return customers;
 	}
 	
 	private Specification<Customer> getWhereClause(final JqgridFilter jqgridFilter){
@@ -112,16 +133,24 @@ public class CustomerServiceImpl  implements CustomerService{
 						}
 						if(rule.getOp().equals("eq")){
 							if(rule.getField().equals("userCode")){
-								Join<Customer,User> uesrJoin = root.join(root.getModel().getSingularAttribute("lastUser", User.class), JoinType.INNER);
+								Join<Customer,User> uesrJoin = root.join(root.getModel().getSingularAttribute("customerPrincipal", User.class), JoinType.INNER);
 								predicate.add(cb.equal(uesrJoin.get("userCode").as(String.class), rule.getData()));
 							}
 							else if(rule.getField().equals("channelCode")){
-								Join<Customer,Channel> channelJoin = root.join(root.getModel().getSingularAttribute("channel", Channel.class), JoinType.INNER);
+								Join<Customer,Channel> channelJoin = root.join(root.getModel().getSingularAttribute("customerChannel", Channel.class), JoinType.INNER);
 								predicate.add(cb.equal(channelJoin.get("channelCode").as(String.class), rule.getData()));
 							}else if(rule.getField().equals("schoolCode")){
 								Join<Customer,School> schoolJoin = root.join(root.getModel().getSingularAttribute("group", School.class), JoinType.INNER);
 								predicate.add(cb.equal(schoolJoin.get("schoolCode").as(String.class), rule.getData()));
-							}else{
+							}else if(rule.getField().equals("createUserCode")){
+								Join<Customer,User> createJoin = root.join(root.getModel().getSingularAttribute("creatUser", User.class), JoinType.INNER);
+								predicate.add(cb.equal(createJoin.get("userCode").as(String.class), rule.getData()));
+							}
+							else if(rule.getField().equals("principalCode")){
+								Join<Customer,User> principalJoin = root.join(root.getModel().getSingularAttribute("customerPrincipal", User.class), JoinType.INNER);
+								predicate.add(cb.equal(principalJoin.get("userCode").as(String.class), rule.getData()));
+							}
+							else{
 								predicate.add(cb.equal(root.get(rule.getField()).as(String.class), rule.getData()));
 							}
 						}
@@ -137,9 +166,12 @@ public class CustomerServiceImpl  implements CustomerService{
 		return this.customerRepository.findUnlockCustomer(userCode, pageable);
 	}
 	
+	public Page<Customer> findUserCustomer(String userCode,Pageable pageable){
+		return this.customerRepository.findUserCustomer(userCode, pageable);
+	}
 
 	public boolean checkCustomerUnquire(String customerCode,String custMobile){
-		Customer customer = this.customerRepository.findCustomerByCustomerMobile(custMobile);
+		Customer customer = this.customerRepository.findCustomerByCustomerMobile1(custMobile);
 		if(customer!=null){
 			if(customerCode!=null && !customerCode.isEmpty() && customerCode.equals(customer.getCustomerCode())){
 				return true;

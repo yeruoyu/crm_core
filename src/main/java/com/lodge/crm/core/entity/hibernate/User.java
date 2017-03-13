@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -59,14 +61,44 @@ public class User implements Serializable {
 	@Column(name="USER_STATUS")
 	private Integer userStatus;
 	
-	/** 客户记录集 */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lastUser",fetch=FetchType.LAZY )
+	/** 上级 */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_PCODE", insertable = true,updatable = true)
+	private User parentUser;
+	
+	/** 销售人员标志 */
+	@Column(name="USER_SALEFLAG")
+	private Integer userSaleFlag;
+	
+	/** 员工级别 */
+	@Column(name="USER_LEVEL")
+	private Integer userLevel;
+	
+	/** 员工最多可以锁定客户数 */
+	@Column(name="USER_MAX")
+	private Integer userMax;
+	
+	/** 用户角色Code */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ROLE", insertable = true,updatable = true)
+	private Role userRole;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	 @JoinColumn(name = "USER_GROUP", insertable = true,updatable = true)
+	private Group userGroup;
+	
+	/** 负责人客户记录集 */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customerPrincipal",fetch=FetchType.LAZY )
 	private List<Customer> customerList;
+	
+	/** 输入人客户记录集 */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creatUser",fetch=FetchType.LAZY )
+	private List<Customer> createCustomerList;
 	
 	/** 联系客户记录集 */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recordUser",fetch=FetchType.LAZY )
 	private List<CustomerRecord> recordList;
-	
+		
 	/** 操作日志 */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "logUser",fetch=FetchType.LAZY )
 	private List<OperateLog> operateLogList;
@@ -75,10 +107,7 @@ public class User implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lockUser",fetch=FetchType.LAZY )
 	private List<CustomerUser> lockHistoryList;
 	
-	@ManyToMany(mappedBy="userList",cascade={CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
-	private List<Role> roleList;
-
-	@ManyToMany(mappedBy="userList",cascade={CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy="userList",cascade={CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.LAZY)
 	private List<School> schoolList;
 	
 	
@@ -162,6 +191,38 @@ public class User implements Serializable {
 		this.userStatus = userStatus;
 	}
 
+	public User getParentUser() {
+		return parentUser;
+	}
+
+	public void setParentUser(User parentUser) {
+		this.parentUser = parentUser;
+	}
+
+	public Integer getUserSaleFlag() {
+		return userSaleFlag;
+	}
+
+	public void setUserSaleFlag(Integer userSaleFlag) {
+		this.userSaleFlag = userSaleFlag;
+	}
+
+	public Integer getUserLevel() {
+		return userLevel;
+	}
+
+	public void setUserLevel(Integer userLevel) {
+		this.userLevel = userLevel;
+	}
+
+	public Integer getUserMax() {
+		return userMax;
+	}
+
+	public void setUserMax(Integer userMax) {
+		this.userMax = userMax;
+	}
+
 	public List<Customer> getCustomerList() {
 		return customerList;
 	}
@@ -194,12 +255,12 @@ public class User implements Serializable {
 		this.lockHistoryList = lockHistoryList;
 	}
 
-	public List<Role> getRoleList() {
-		return roleList;
+	public Role getUserRole() {
+		return userRole;
 	}
 
-	public void setRoleList(List<Role> roleList) {
-		this.roleList = roleList;
+	public void setUserRole(Role userRole) {
+		this.userRole = userRole;
 	}
 
 	public List<School> getSchoolList() {
@@ -210,4 +271,19 @@ public class User implements Serializable {
 		this.schoolList = schoolList;
 	}
 
+	public Group getUserGroup() {
+		return userGroup;
+	}
+
+	public void setUserGroup(Group userGroup) {
+		this.userGroup = userGroup;
+	}
+
+	public List<Customer> getCreateCustomerList() {
+		return createCustomerList;
+	}
+
+	public void setCreateCustomerList(List<Customer> createCustomerList) {
+		this.createCustomerList = createCustomerList;
+	}
 }

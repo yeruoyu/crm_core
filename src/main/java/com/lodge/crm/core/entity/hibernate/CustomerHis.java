@@ -2,13 +2,13 @@ package com.lodge.crm.core.entity.hibernate;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,13 +21,18 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="CUSTOMER")
-public class Customer implements Serializable {
+@Table(name="CUSTOMER_HIS")
+public class CustomerHis implements Serializable {
 
 	private static final long serialVersionUID = -1270419561056445301L;
 	
-	/** 客户代码，主键 */
+	/** 履历编号，主键 */
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="HISTORY_ID")
+	private Integer historyId;
+
+	/** 客户代码 */
 	@Column(name="CUSTOMER_CODE")
 	private String customerCode;
 	
@@ -77,7 +82,7 @@ public class Customer implements Serializable {
 	
 	/** 负责人 */
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "LAST_USER", insertable = true,updatable = true,nullable=false)
+    @JoinColumn(name = "LAST_USER", insertable = true,updatable = true)
 	private User customerPrincipal;
 	
 	/** 客户对应渠道 */
@@ -97,7 +102,7 @@ public class Customer implements Serializable {
 
 	
 	/** 客户默认手机 ,作为客户唯一性验证*/
-	@Column(name="CUSTOMER_MOBILE1",unique=true,nullable=false)
+	@Column(name="CUSTOMER_MOBILE1",unique=true)
 	private String customerMobile1;
 	
 	@Column(name="CUSTOMER_MOBILE2")
@@ -151,10 +156,6 @@ public class Customer implements Serializable {
 	@Column(name="ACCOUNT_STATUS")
 	private Integer accountStatus;
 	
-	/** 客户上门状态(未上门:0 -> 已上门:1) */
-	@Column(name="VISIT_STATUS")
-	private Integer visitStatus;
-	
 	/**
 	 * 客户联系方式
 	 */
@@ -182,10 +183,8 @@ public class Customer implements Serializable {
 	private List<CustomerContract> custContractList;
 	
 	/** 创建用户Code */
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CREATE_USER", insertable = true,updatable = true)
-	private User creatUser;
-
+	@Column(name="CREATE_USER")
+	private String creatUserCode;
 	
 	/** 创建时间 */
 	@Column(name="CREATE_TIME")
@@ -199,10 +198,6 @@ public class Customer implements Serializable {
 	@Column(name="UPDATE_TIME")
 	private Timestamp updateTime;
 
-	/** 最后联系时间 */
-	@Column(name="CUSTOMER_LASTCONTACTTIME")
-	private Date lastContactTime;
-	
 	public String getCustomerCode() {
 		return customerCode;
 	}
@@ -451,14 +446,6 @@ public class Customer implements Serializable {
 		this.accountStatus = accountStatus;
 	}
 
-	public Integer getVisitStatus() {
-		return visitStatus;
-	}
-
-	public void setVisitStatus(Integer visitStatus) {
-		this.visitStatus = visitStatus;
-	}
-
 	public List<ContactInfo> getContactInfoList() {
 		return contactInfoList;
 	}
@@ -507,6 +494,13 @@ public class Customer implements Serializable {
 		this.custContractList = custContractList;
 	}
 
+	public String getCreatUserCode() {
+		return creatUserCode;
+	}
+
+	public void setCreatUserCode(String creatUserCode) {
+		this.creatUserCode = creatUserCode;
+	}
 
 	public Timestamp getCreateTime() {
 		return createTime;
@@ -532,19 +526,56 @@ public class Customer implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Date getLastContactTime() {
-		return lastContactTime;
+	public Integer getHistoryId() {
+		return historyId;
 	}
 
-	public void setLastContactTime(Date lastContactTime) {
-		this.lastContactTime = lastContactTime;
+	public void setHistoryId(Integer historyId) {
+		this.historyId = historyId;
+	}
+	
+	public CustomerHis(){
+		
 	}
 
-	public User getCreatUser() {
-		return creatUser;
-	}
+	// 
+	public CustomerHis(Customer customer){
+		this.setCustomerCode(customer.getCustomerCode());
+		this.setCustomerName(customer.getCustomerName());
+		this.setCustomerEName(customer.getCustomerEName());
+		this.setCustomerSex(customer.getCustomerSex());
+		this.setCustomerCredit(customer.getCustomerCredit());
+		this.setCustomerBirthday(customer.getCustomerBirthday());
+		this.setCustomerSchool(customer.getCustomerSchool());
+		this.setCustomerGrade(customer.getCustomerGrade());
+		this.setCustomerMajor(customer.getCustomerMajor());
+		this.setIntentionMajor(customer.getIntentionMajor());
+		this.setIntentionContry(customer.getIntentionContry());
+		this.setIntentionStatus(customer.getIntentionStatus());
+		this.setCustomerPrincipal(customer.getCustomerPrincipal());
+		this.setCustomerChannel(customer.getCustomerChannel());
+		this.setCustomerGroup(customer.getCustomerGroup());
+		this.setCustomerPhone1(customer.getCustomerPhone1());
+		this.setCustomerPhone2(customer.getCustomerPhone2());
+		this.setCustomerMobile1(customer.getCustomerMobile1());
+		this.setCustomerMobile2(customer.getCustomerMobile2());
+		this.setCustomerEmail(customer.getCustomerEmail());
+		this.setCustomerQq(customer.getCustomerQq());
+		this.setCustomerWeiChat(customer.getCustomerWeiChat());
+		this.setCustomerProvince(customer.getCustomerProvince());
+		this.setCustomerCity(customer.getCustomerCity());
+		this.setCustomerZipcode(customer.getCustomerZipcode());
+		this.setCustomerAddress(customer.getCustomerAddress());
+		this.setCustomerLocked(customer.getCustomerLocked());
+		this.setCustomerComments(customer.getCustomerComments());
+		this.setCustomerLevel(customer.getCustomerLevel());
+		this.setCustomerStatus(customer.getCustomerStatus());
+		this.setAccountStatus(customer.getAccountStatus());
+		this.setCreatUserCode(customer.getCreatUser().getUserCode());
+		this.setCreateTime(customer.getCreateTime());
+		this.setUpdateUserCode(customer.getUpdateUserCode());
+		this.setUpdateTime(customer.getUpdateTime());
 
-	public void setCreatUser(User creatUser) {
-		this.creatUser = creatUser;
 	}
+	
 }

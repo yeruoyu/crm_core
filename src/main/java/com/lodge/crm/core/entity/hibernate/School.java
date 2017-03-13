@@ -47,9 +47,9 @@ public class School implements Serializable {
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Project> projectSet;
 
-	/** 对应的客户 */
-	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Customer> customerSet;
+//	/** 对应的客户 */
+//	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private Set<Customer> customerSet;
 	
 	/** 对应的员工 */
 	@ManyToMany(cascade=CascadeType.PERSIST,fetch=FetchType.LAZY)
@@ -111,13 +111,13 @@ public class School implements Serializable {
 		this.schoolStatus = schoolStatus;
 	}
 
-	public Set<Customer> getCustomerSet() {
-		return customerSet;
-	}
-
-	public void setCustomerSet(Set<Customer> customerSet) {
-		this.customerSet = customerSet;
-	}
+//	public Set<Customer> getCustomerSet() {
+//		return customerSet;
+//	}
+//
+//	public void setCustomerSet(Set<Customer> customerSet) {
+//		this.customerSet = customerSet;
+//	}
 
 	public List<User> getUserList() {
 		return userList;

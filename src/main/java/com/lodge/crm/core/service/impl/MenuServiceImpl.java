@@ -90,6 +90,12 @@ public class MenuServiceImpl implements MenuService {
 	}
 	
 	@Override
+	public List<Menu>findByRoleCode(String roleCode,String menuType){
+		List<Menu> menuList = this.menuRepository.findByRoleCode(roleCode, menuType);
+		return menuList;
+	}
+	
+	@Override
 	public Page<Menu> findAll(JqgridFilter jqgridFilter, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;

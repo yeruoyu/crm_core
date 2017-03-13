@@ -46,6 +46,8 @@ public class CustomerRecord implements Serializable{
 	
 	@Column(name="RECORD_RESULT")
 	private String recordResult;
+	@Column(name="RECORD_NTIME")
+	private String recordNTime;
 	
 	@ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     @JoinColumn(name = "RECORD_CUSTOMER", insertable = true,updatable = true)
@@ -134,6 +136,12 @@ public class CustomerRecord implements Serializable{
 	public void setRecordName(String recordName) {
 		this.recordName = recordName;
 	}
-	
-	
+
+	public String getRecordNTime() {
+		return recordNTime;
+	}
+
+	public void setRecordNTime(String recordNTime) {
+		this.recordNTime = recordNTime;
+	}
 }
