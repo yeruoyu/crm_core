@@ -20,6 +20,15 @@ public interface RecordRepository  extends JpaRepository<CustomerRecord, Long>,J
 	public Page<CustomerRecord> findByCustomerCode(String customerCode,Pageable pageable);
 	
 	
+	@Query(value="SELECT cr FROM CustomerRecord cr "
+			+ "JOIN cr.recordUser u JOIN cr.recordCustomer c "
+			+ "WHERE u.userCode=?1 and c.customerStatus=1 and cr.recordNTime is not null "
+			+ "ORDER BY cr.recordNTime"
+			,countQuery="SELECT COUNT(cr) FROM CustomerRecord cr "
+					+ "JOIN cr.recordUser u JOIN cr.recordCustomer c "
+					+ "WHERE u.userCode=?1 and c.customerStatus=1 and cr.recordNTime is not null ")
+	public Page<CustomerRecord> findByUserCode(String userCode,Pageable pageable);
+	
 	/*
 		SELECT CR.* FROM CUSTOMER C
 		INNER JOIN USER U

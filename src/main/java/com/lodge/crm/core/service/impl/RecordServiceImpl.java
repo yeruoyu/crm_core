@@ -130,5 +130,10 @@ public class RecordServiceImpl implements RecordService {
 	public Page<CustomerRecord> findByCustomerCode(String customerCode,Pageable pageable){
 		return recordRepository.findByCustomerCode(customerCode, pageable);
 	}
+	
+	@Override
+	public Page<CustomerRecord> findByUserCode(String userCode,Pageable pageable){
+		return recordRepository.findByUserCode(userCode, pageable);
+	}
 
 }

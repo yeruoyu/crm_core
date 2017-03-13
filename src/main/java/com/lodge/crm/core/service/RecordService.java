@@ -7,4 +7,6 @@ import com.lodge.crm.core.entity.hibernate.CustomerRecord;
 
 public interface RecordService extends BaseJqGridService<CustomerRecord,Long> {
 	public Page<CustomerRecord> findByCustomerCode(String customerCode,Pageable pageable);
+	
+	public Page<CustomerRecord> findByUserCode(String userCode,Pageable pageable);
 }
