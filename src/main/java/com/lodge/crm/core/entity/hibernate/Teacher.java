@@ -1,6 +1,7 @@
 package com.lodge.crm.core.entity.hibernate;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * 教师信息表
+ * @author schindler
+ *
+ */
 @Entity
 @Table(name="TEACHER")
 public class Teacher implements Serializable{
@@ -22,12 +28,12 @@ public class Teacher implements Serializable{
 	private String teacherCode;
 	
 	/** 教师姓名 */
-	@Column(name="TEACHER_CODE")
+	@Column(name="TEACHER_NAME")
 	private String teacherName;
 	
 	/** 教师性别 */
 	@Column(name="TEACHER_SEX")
-	private String sex;
+	private Integer sex;
 	
 	/** 教师学历 */
 	@Column(name="TEACHER_EDUCATION")
@@ -43,7 +49,7 @@ public class Teacher implements Serializable{
 	
 	/** 授课形式(兼职/全职) */
 	@Column(name="TEACHING_FORM")
-	private String teachingForm;
+	private Integer teachingForm;
 	
 	/** 对应课程 */
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -53,10 +59,27 @@ public class Teacher implements Serializable{
 	/** 教师简介 */
 	@Column(name="TEACHER_INTRODUCE")
 	private String introduce;
-	
-	
+
 	/** 教师状态 */
 	@Column(name="TEACHER_STATUS")
 	private Integer status;
+	
+	/** 创建用户 */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CREATE_USER", insertable = true,updatable = true)
+	private User creatUser;
+
+	/** 创建时间 */
+	@Column(name="CREATE_TIME")
+	private Timestamp createTime;
+	
+	/** 修改用户 */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "UPDATE_USER", insertable = true,updatable = true)
+	private User updateUser;
+	
+	/** 修改时间 */
+	@Column(name="UPDATE_TIME")
+	private Timestamp updateTime;
 		
 }
