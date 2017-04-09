@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,12 +23,18 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="CONTRACT")
-public class Contract  implements Serializable{
+@Table(name="CONTRACT_HIS")
+public class ContractHis  implements Serializable{
 
 	private static final long serialVersionUID = 5886926938391995102L;
+
+	/** 履历编号，主键 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="HISTORY_ID")
+	private Integer historyId;
 	
-	/** 合约代码,主键 */
+	/** 合约代码*/
 	@Id
 	@Column(name="CONTRACT_CODE")
 	private String contractCode;
@@ -112,6 +120,14 @@ public class Contract  implements Serializable{
 	/** 合约对应的金额记录 */
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "contract",fetch=FetchType.LAZY )
 	private List<ContractAmount> amountList;
+
+	public Integer getHistoryId() {
+		return historyId;
+	}
+
+	public void setHistoryId(Integer historyId) {
+		this.historyId = historyId;
+	}
 
 	public String getContractCode() {
 		return contractCode;

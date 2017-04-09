@@ -49,5 +49,68 @@ public class Course  implements Serializable{
 	/** 课程对应的学生记录 */
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "studentCourse",fetch=FetchType.LAZY )
 	private List<Student> studentList;
-	
+
+	public String getCourseCode() {
+		return courseCode;
+	}
+
+	public void setCourseCode(String courseCode) {
+		this.courseCode = courseCode;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getCourseContent() {
+		return courseContent;
+	}
+
+	public void setCourseContent(String courseContent) {
+		this.courseContent = courseContent;
+	}
+
+	public String getCourseRemark() {
+		return courseRemark;
+	}
+
+	public void setCourseRemark(String courseRemark) {
+		this.courseRemark = courseRemark;
+	}
+
+	public Integer getCourseHour() {
+		return courseHour;
+	}
+
+	public void setCourseHour(Integer courseHour) {
+		this.courseHour = courseHour;
+	}
+
+	public String getCoursePrice() {
+		return coursePrice;
+	}
+
+	public void setCoursePrice(String coursePrice) {
+		this.coursePrice = coursePrice;
+	}
+
+	public Double getCourseStatus() {
+		return courseStatus;
+	}
+
+	public void setCourseStatus(Double courseStatus) {
+		this.courseStatus = courseStatus;
+	}
+
+	public List<Student> getStudentList() {
+		return studentList;
+	}
+
+	public void setStudentList(List<Student> studentList) {
+		this.studentList = studentList;
+	}
 }

@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,12 +19,18 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="STUDENT")
-public class Student implements Serializable{
+@Table(name="STUDENT_HiS")
+public class StudentHis implements Serializable{
 
 	private static final long serialVersionUID = -4130715627272462789L;
-	/** 学生代码,主键 */
+	
+	/** 履历编号，主键 */
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="HISTORY_ID")
+	private Integer historyId;
+	
+	/** 学生代码*/
 	@Column(name="STUDENT_CODE")
 	private String studentCode;
 	
@@ -86,6 +94,14 @@ public class Student implements Serializable{
 	@Column(name="UPDATE_TIME")
 	private Timestamp updateTime;
 
+	public Integer getHistoryId() {
+		return historyId;
+	}
+
+	public void setHistoryId(Integer historyId) {
+		this.historyId = historyId;
+	}
+	
 	public String getStudentCode() {
 		return studentCode;
 	}
