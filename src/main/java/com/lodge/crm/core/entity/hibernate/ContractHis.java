@@ -35,7 +35,6 @@ public class ContractHis  implements Serializable{
 	private Integer historyId;
 	
 	/** 合约代码*/
-	@Id
 	@Column(name="CONTRACT_CODE")
 	private String contractCode;
 	

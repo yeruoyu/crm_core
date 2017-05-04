@@ -1,6 +1,7 @@
 package com.lodge.crm.core.entity.hibernate;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -44,12 +47,30 @@ public class Course  implements Serializable{
 
 	/** 课程状态 */
 	@Column(name="COURSE_STATUS")
-	private Double courseStatus;
+	private Integer courseStatus;
 	
 	/** 课程对应的学生记录 */
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "studentCourse",fetch=FetchType.LAZY )
 	private List<Student> studentList;
 
+	/** 创建用户Code */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CREATE_USER", insertable = true,updatable = true)
+	private User creatUser;
+
+	/** 创建时间 */
+	@Column(name="CREATE_TIME")
+	private Timestamp createTime;
+	
+	/** 修改用户 */
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "UPDATE_USER", insertable = true,updatable = true)
+	private User updateUser;
+	
+	/** 修改时间 */
+	@Column(name="UPDATE_TIME")
+	private Timestamp updateTime;
+	
 	public String getCourseCode() {
 		return courseCode;
 	}
@@ -98,11 +119,11 @@ public class Course  implements Serializable{
 		this.coursePrice = coursePrice;
 	}
 
-	public Double getCourseStatus() {
+	public Integer getCourseStatus() {
 		return courseStatus;
 	}
 
-	public void setCourseStatus(Double courseStatus) {
+	public void setCourseStatus(Integer courseStatus) {
 		this.courseStatus = courseStatus;
 	}
 
@@ -112,5 +133,37 @@ public class Course  implements Serializable{
 
 	public void setStudentList(List<Student> studentList) {
 		this.studentList = studentList;
+	}
+
+	public User getCreatUser() {
+		return creatUser;
+	}
+
+	public void setCreatUser(User creatUser) {
+		this.creatUser = creatUser;
+	}
+
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public User getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(User updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 }

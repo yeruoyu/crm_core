@@ -58,11 +58,11 @@ public class Teacher implements Serializable{
 	
 	/** 教师简介 */
 	@Column(name="TEACHER_INTRODUCE")
-	private String introduce;
+	private String teacherIntroduce;
 
 	/** 教师状态 */
 	@Column(name="TEACHER_STATUS")
-	private Integer status;
+	private Integer teacherStatus;
 	
 	/** 创建用户 */
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -146,20 +146,20 @@ public class Teacher implements Serializable{
 		this.course = course;
 	}
 
-	public String getIntroduce() {
-		return introduce;
+	public String getTeacherIntroduce() {
+		return teacherIntroduce;
 	}
 
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+	public void setTeacherIntroduce(String teacherIntroduce) {
+		this.teacherIntroduce = teacherIntroduce;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Integer getTeacherStatus() {
+		return teacherStatus;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setTeacherStatus(Integer teacherStatus) {
+		this.teacherStatus = teacherStatus;
 	}
 
 	public User getCreatUser() {

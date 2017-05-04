@@ -22,7 +22,11 @@
 		<class>com.lodge.crm.core.entity.hibernate.School</class>		
 		<class>com.lodge.crm.core.entity.hibernate.User</class>
 		<class>com.lodge.crm.core.entity.hibernate.TableKey</class>
-
+		<class>com.lodge.crm.core.entity.hibernate.Teacher</class>
+		<class>com.lodge.crm.core.entity.hibernate.Course</class>
+		<class>com.lodge.crm.core.entity.hibernate.Student</class>
+		<class>com.lodge.crm.core.entity.hibernate.Contract</class>
+		<class>com.lodge.crm.core.entity.hibernate.ContractAmount</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.dialect" value="${hibernate.dialect}" />
